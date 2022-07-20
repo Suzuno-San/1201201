@@ -64,7 +64,7 @@ void deleteArray(int arr[], int n){
     printf("Input position where you want to delete: ");
     scanf("%d", &pos);
 
-    for(int i=pos-1;i<n;i++){
+    for(int i=pos;i<n;i++){
         arr[i] = arr[i+1];
     }
 

@@ -4,6 +4,7 @@ void selectChoise();
 void displayArray(int *ptr, int n);
 void insertArray(int *ptr, int n);
 void deleteArray(int *ptr, int n);
+void searchArray(int *ptr, int n);
 
 int main() {
     int arr[] = {-2, 0, 3, 11, 14, 16, 20, 22, 37, 53, 57, 66, 71};
@@ -19,7 +20,8 @@ void selectChoise(int *ptr, int n){
         printf("******Program array structure******\n");
         printf("1. Insert data in array structure in index\n");
         printf("2. Delete data in array structure\n");
-        printf("3. Display data in array structure\n\n");
+        printf("3. Search data in array structure\n");
+        printf("4. Display data in array structure\n\n");
 
         printf("Type number [<= to select the option =>]: ");
         scanf("%d", &choise);
@@ -33,6 +35,9 @@ void selectChoise(int *ptr, int n){
             deleteArray(ptr, n);
         }
         else if(choise == 3){
+            searchArray(ptr, n);
+        }
+        else if(choise == 4){
             displayArray(ptr, n);
         }
     }
@@ -62,12 +67,30 @@ void deleteArray(int *ptr, int n){
     printf("Input position where you want to delete: ");
     scanf("%d", &pos);
 
-    for(int i=pos-1;i<n;i++){
+    for(int i=pos;i<n;i++){
         *(ptr+i) = *(ptr+i+1);
         //arr[i] = arr[i+1];
     }
 
     displayArray(ptr, n);
+}
+
+void searchArray(int *ptr, int n) {
+    int pos, data;
+
+    printf("Input data if you want to search: ");
+    scanf("%d", &data);
+
+    for(int i=0;i<n;i++){
+        if(*(ptr+i) == data){
+            printf("%d is found at index %d\n",data, i);
+            displayArray(ptr, n);
+            break;
+        }
+        else if(i==n-1){
+            printf("Not found.\n");
+        }
+    }
 }
 
 void displayArray(int *ptr, int n) {
