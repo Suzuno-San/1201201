@@ -10,6 +10,8 @@ struct Node{
 
 //ประกาศ function
 void menu(struct Node* head);
+struct Node* addHead(struct Node* head);
+struct Node* addTail(struct Node* head);
 struct Node* addWithOrder(struct Node* head);
 struct Node* deleteHead(struct Node* head);
 struct Node* deleteTail(struct Node* head);
@@ -50,11 +52,13 @@ void menu(struct Node* head){
     //เงื่อนไขทำซ้ำคือ ถ้า choice ไม่เท่ากับ 0
     while(choice != 0){
         printf("******Program Linked List******\n");
-        printf("1. Add with order\n");
-        printf("2. Delete head\n");
-        printf("3. Delete tail\n");
-        printf("4. Delete requireNode\n");
-        printf("5. Display\n\n");
+        printf("1. Add head\n");
+        printf("2. Add tail\n");
+        printf("3. Add with order\n");
+        printf("4. Delete head\n");
+        printf("5. Delete tail\n");
+        printf("6. Delete requireNode\n");
+        printf("7. Display\n\n");
 
         printf("Type number [<= to select the option =>]: ");
         scanf("%d", &choice);
@@ -63,41 +67,111 @@ void menu(struct Node* head){
         if(choice == 0){
             printf("\nGood Bye.\n");
         }
-        //ถ้า choice เท่ากับ 1 ให้เรียกฟังก์ชันเพิ่มแบบลำดับ
+
+        //ถ้า choice เท่ากับ 1 ให้เรียกฟังก์ชันเพิ่มข้างหน้า
         else if(choice == 1){
+            printf("\n");
+            head = addHead(head);
+            printf("\n");
+        }
+
+        //ถ้า choice เท่ากับ 2 ให้เรียกฟังก์ชันเพิ่มข้างหลัง
+        else if(choice == 2){
+            printf("\n");
+            head = addTail(head);
+            printf("\n");
+        }
+
+        //ถ้า choice เท่ากับ 3 ให้เรียกฟังก์ชันเพิ่มแบบลำดับ
+        else if(choice == 3){
             printf("\n");
             head = addWithOrder(head);
             printf("\n");
         }
+
         //ถ้า choice เท่ากับ 2 ให้เรียกฟังก์ชันลบส่วนหัว
-        else if(choice == 2){
+        else if(choice == 4){
             printf("\n");
             head = deleteHead(head);
             printf("\n");
         }
+
         //ถ้า choice เท่ากับ 3 ให้เรียกฟังก์ชันลบส่วนท้าย
-        else if(choice == 3){
+        else if(choice == 5){
             printf("\n");
             head = deleteTail(head);
             printf("\n");
         }
+
         //ถ้า choice เท่ากับ 4 ให้เรียกฟังก์ชันลบตัวที่ต้องการ
-        else if(choice == 4){
+        else if(choice == 6){
             printf("\n");
             head = deleteRequireNode(head);
             printf("\n");
         }
+
         //ถ้า choice เท่ากับ 5 ให้เรียกฟังก์ชันแสดงข้อมูลใน linkedlist
-        else if(choice == 5){
+        else if(choice == 7){
             printf("\n");
             displayLinklist(head);
             printf("\n");
         }
+
         //ถ้า choice ไม่ตรงกับเงื่อนไขใดเลย ให้พิมพ์ข้อความ "Please try again."
         else{
             printf("\nPlease try again.\n\n");
         }
     }
+}
+
+struct Node* addHead(struct Node* head){
+    struct Node* l = (struct Node*)malloc(sizeof(struct Node));     //ประการโหนดใหม่
+
+    //รับค่าข้อมูลแล้วเก็บในโหนดใหม่
+    int num;
+    printf("Input value to add: ");
+    scanf("%d",&num);
+    l->data = num;
+
+
+    l->link = head;     //ให้โหนดใหม่ชี้ไปยังโหนดที่ head ชี้ไป
+    head = l;           //ให้ head ชี้ไปยังโหนด l
+
+    printf("Add [%d] Completed.\n",num);
+
+    return head;        //คินค่า head
+}
+
+struct Node* addTail(struct Node* head){
+    struct Node* l = (struct Node*)malloc(sizeof(struct Node));     //ประการโหนดใหม่
+    struct Node* p = head;
+    struct Node* last;
+
+    //รับค่าข้อมูลแล้วเก็บในโหนดใหม่
+    int num;
+    printf("Input value to add: ");
+    scanf("%d",&num);
+    l->data = num;
+
+    //ให้พอยเตอร์ l ชี้ไป Null
+    l->link = NULL;
+
+    //ตรวจสอบลิงค์สิสต์ว่างหรือไม่
+    if(head == NULL){
+        l->link = head;     //ให้ l ชี้ไป head
+        head = l;           //ให้พอยเตอร์ head เท่ากับ พอยต์เตอร์ l
+    }
+    else{
+        //เงื่อนไขว่าพอยต์เตอร์ p ที่ชี้ไปเท่ากับค่าว่างหรือไม่
+        while(p->link != NULL){
+            p = p->link;    //ให้พอยต์เตอร์ p ไปยังโหนดต่อไป
+        }
+        p->link = l;        //ให้พอยต์เตอร์ p ชี้ไปพอยต์เตอร์ l
+    }
+    printf("Add [%d] Completed.\n",num);
+
+
+    return head;    //คืนค่า head
 }
 
 //ฟังก์ชั่น addWithOrder มีพารามิเตอร์เป็นพอยต์เตอร์ head
@@ -107,7 +181,7 @@ struct Node* addWithOrder(struct Node* head){
 
     //รับค่าเป็นจำนวนเต็มเก็บไว้ในตัวแปร num
     int num;
-    printf("Input Number: ");
+    printf("Input value to add: ");
     scanf("%d",&num);
 
     l->data = num;      //กำหนดค่าให้พอยต์เตอร์  l เท่ากับ num
@@ -179,7 +253,7 @@ struct Node* deleteRequireNode(struct Node* head){
     }
     else{
         //รับค่าเก็บไว้ในตัวแปร num
-        printf("Input Number to Delete: ");
+        printf("Input value to delete: ");
         scanf("%d",&num);
 
         tmp = head;     //ให้พอยต์เตอร์ tmp เท่ากับพอยต์เตอร์ head
@@ -232,3 +306,4 @@ void displayLinklist(struct Node* head){
     }
     printf("\n");
 }
+
