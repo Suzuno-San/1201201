@@ -90,8 +90,6 @@ void searchArray(int arr[], int n) {
 }
 
 void displayArray(int arr[], int n) {
-    //printf("%d ", n);
-
     for(int i=0;i<n;i++){
         printf("[%d] ", arr[i]);
     }
